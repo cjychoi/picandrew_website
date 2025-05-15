@@ -1,6 +1,4 @@
-import React from 'react';
-
-const Shop: React.FC = () => {
+const Shop = () => {
     return (
         <main style={{ padding: '2rem' }}>
             <h1>Shop</h1>

@@ -1,16 +1,18 @@
 .navbar {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Century Gothic", sans-serif;
   position: fixed;
   padding: 0px 30px;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: white;
+  background-color: transparent;
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  padding: 16px 20px;
+  background-color: #f8f8f8;
 }
 
 .navbar-left {
@@ -20,7 +22,8 @@
 }
 
 .navbar-logo {
-  font-size: 1.3rem;
+  width: 150px;
+  margin-top: 13px;
 }
 
 .navbar-links {
@@ -34,7 +37,7 @@
 .navbar-links li a {
   text-decoration: none;
   color: black;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .navbar-icon {
@@ -50,7 +53,7 @@
 }
 
 .navbar-links li a.active {
-  color: #447cf0;
-  font-weight: 600;
+  color: #67b1f0;
+  font-weight: 400;
   /* border-bottom: 2px solid #e1306c; */
 }

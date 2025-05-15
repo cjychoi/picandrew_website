@@ -1,10 +1,9 @@
-import React from 'react';
 import './About.css'
 
-const About: React.FC = () => {
+const About = () => {
     return (
-        <main>
-            <h1>Andrew Choi</h1>
+        <main style={{ padding: '2rem' }}>
+            <h1>About</h1>
             <p>This is the About page for Picandrew.</p>
         </main>
     );

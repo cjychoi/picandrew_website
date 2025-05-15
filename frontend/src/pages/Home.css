@@ -1,0 +1,18 @@
+.mainHome {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    --swiper-navigation-color: #67b1f0;
+}
+
+.picSwiper {
+    width: 70%;
+}
+
+.slideImg {
+    height: 500px;
+}
