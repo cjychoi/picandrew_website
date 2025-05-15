@@ -31,7 +31,7 @@ const Home = () => {
                         disableOnInteraction: false,   // keep autoplaying after user swipes
                         pauseOnMouseEnter: true,       // stop while pointer is over slider
                     }}
-                    speed={1500}
+                    speed={800}
                     loop={true}
                     spaceBetween={50}
                     slidesPerView={1}
