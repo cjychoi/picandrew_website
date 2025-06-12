@@ -1,6 +1,6 @@
 import "./About.css";
 import { FaInstagram } from "react-icons/fa6";
-import profile from "../assets/picandrew_profile.jpg";
+import profile from "../assets/picandrew_profile1.jpg";
 import camera from "../assets/picandrew_camera.jpg";
 
 const About = () => {
