@@ -1,0 +1,59 @@
+.navbar {
+  font-family: "Century Gothic", sans-serif;
+  position: fixed;
+  padding: 0px 30px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 16px 20px;
+  background-color: #f8f8f8;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-logo {
+  width: 150px;
+  margin-top: 13px;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 400;
+}
+
+.navbar-icon {
+  font-size: 1.4rem;
+  color: black;
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.navbar-icon:hover {
+  color: #e1306c;
+  /* Instagram hover color */
+}
+
+.navbar-links li a.active {
+  color: #67b1f0;
+  font-weight: 400;
+  /* border-bottom: 2px solid #e1306c; */
+}
