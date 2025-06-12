@@ -45,46 +45,46 @@ const About = () => {
 
             {/* Gear section */}
             <section className="gearBlock">
-            <div className="gearListSection">
-                <h2>My Camera Gears</h2>
-                <div className="gearColumns">
-                <div>
-                    <h4>Body</h4>
-                    <ul>
-                    <li>Sony a7C II</li>
-                    <li>Sony a6400</li>
-                    <li>Panasonic Lumix LX10</li>
-                    </ul>
-                    <h4>Lenses</h4>
-                    <ul>
-                    <li>Sony 35mm f1.4 GM</li>
-                    <li>Tamron 28-200mm f2.8-5.6</li>
-                    <li>Sony 85mm f1.8</li>
-                    <li>Sony 35mm f1.8 APS-C</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Wishlist</h4>
-                    <ul>
-                    <li>Sony 70-200mm GM II</li>
-                    <li>Sony 50mm f1.2 GM</li>
-                    </ul>
-                    <h4>ETC</h4>
-                    <ul>
-                    <li>Peak Design Everyday Backpack Zip 20L</li>
-                    <li>Peak Design Everyday Sling 10L</li>
-                    <li>Peak Design Slide Lite / Cuff</li>
-                    <li>K&F Concept Variable ND2-ND400 Filter</li>
-                    <li>Hoya CPL Filter</li>
-                    <li>SmallRig AP-20 Carbon Fiber Tripod</li>
-                    <li>Sony 256GB E Series UHS-II SD Card</li>
-                    </ul>
-                </div>
-                </div>
-            </div>
-            <div className="gearImageWrapper">
-                <img src={camera} alt="Camera gear on city street" />
-            </div>
+              <div className="gearListSection">
+                  <h2>My Camera Gears</h2>
+                  <div className="gearColumns">
+                  <div>
+                      <h4>Body</h4>
+                      <ul>
+                      <li>Sony a7C II</li>
+                      <li>Sony a6400</li>
+                      <li>Panasonic Lumix LX10</li>
+                      </ul>
+                      <h4>Lenses</h4>
+                      <ul>
+                      <li>Sony 35mm f1.4 GM</li>
+                      <li>Tamron 28-200mm f2.8-5.6</li>
+                      <li>Sony 85mm f1.8</li>
+                      <li>Sony 35mm f1.8 APS-C</li>
+                      </ul>
+                  </div>
+                  <div>
+                      <h4>Wishlist</h4>
+                      <ul>
+                      <li>Sony 70-200mm GM II</li>
+                      <li>Sony 50mm f1.2 GM</li>
+                      </ul>
+                      <h4>ETC</h4>
+                      <ul>
+                      <li>Peak Design Everyday Backpack Zip 20L</li>
+                      <li>Peak Design Everyday Sling 10L</li>
+                      <li>Peak Design Slide Lite / Cuff</li>
+                      <li>K&F Concept Variable ND2-ND400 Filter</li>
+                      <li>Hoya CPL Filter</li>
+                      <li>SmallRig AP-20 Carbon Fiber Tripod</li>
+                      <li>Sony 256GB E Series UHS-II SD Card</li>
+                      </ul>
+                  </div>
+                  </div>
+              </div>
+              <div className="gearImageWrapper">
+                  <img src={camera} alt="Camera gear on city street" />
+              </div>
             </section>
 
     </main>
