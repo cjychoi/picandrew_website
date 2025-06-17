@@ -17,7 +17,7 @@ const Contact = () => {
             className="contactLink"
           >
             <FaInstagram size={24} />
-            <span>@pic__and__rew</span>
+            <span>@pic_and_rew</span>
           </a>
           <a
             href="mailto:picandrew414@gmail.com"
