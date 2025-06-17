@@ -1,0 +1,24 @@
+.shopMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 120px; /* adjust if needed based on navbar height */
+    min-height: 100vh;
+    background-color: white;
+    font-family: 'Genos', sans-serif;
+    text-align: center;
+  }
+  
+  .shopImage {
+    max-width: 600px;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .shopText {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: #333;
+  }
