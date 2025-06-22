@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import './Gallery.css';
 
 // Dynamically import all images, preserving the path for metadata extraction
@@ -18,6 +18,11 @@ interface ImageData {
   collection: string;
   year: string;
   metadata: ImageMetadata;
+}
+
+interface Collection {
+  name: string;
+  count: number;
 }
 
 // Function to parse the filename and path
@@ -58,48 +63,76 @@ const Gallery = () => {
     const [selectedCollection, setSelectedCollection] = useState('All');
     const [modalData, setModalData] = useState<ImageData | null>(null);
 
-    const { allImages, collectionsByYear, favoritesCount } = useMemo(() => {
-        const images = Object.keys(imageModules)
+    const { allImages, collections, favoritesCount }: { allImages: ImageData[], collections: Collection[], favoritesCount: number } = useMemo(() => {
+        const images: ImageData[] = Object.keys(imageModules)
             .map(path => parseImageData(path))
             .filter((data): data is ImageData => data !== null);
 
-        const collections: Record<string, Record<string, number>> = {};
+        const collectionMap: Record<string, number> = {};
         
-        images.forEach(image => {
-            // Exclude 'Favorites' from yearly collections to keep it as a top-level category
+        images.forEach((image: ImageData) => {
             if (image.collection === 'Favorites') return;
-            const { year, collection } = image;
-            if (!collections[year]) {
-                collections[year] = {};
+            const { collection } = image;
+            if (!collectionMap[collection]) {
+                collectionMap[collection] = 0;
             }
-            if (!collections[year][collection]) {
-                collections[year][collection] = 0;
-            }
-            collections[year][collection]++;
+            collectionMap[collection]++;
         });
         
-        const favoritesCount = images.filter(img => img.collection === 'Favorites').length;
-        const sortedYears = Object.keys(collections).sort((a, b) => parseInt(b) - parseInt(a));
+        const favoritesCount = images.filter((img: ImageData) => img.collection === 'Favorites').length;
         
-        const collectionsByYear: Record<string, {name: string, count: number}[]> = {};
+        const collections: Collection[] = Object.entries(collectionMap)
+            .map(([name, count]) => ({ name, count }))
+            .sort((a, b) => a.name.localeCompare(b.name));
 
-        for (const year of sortedYears) {
-            collectionsByYear[year] = Object.entries(collections[year])
-                .map(([name, count]) => ({ name, count }))
-                .sort((a, b) => a.name.localeCompare(b.name));
-        }
-
-        return { allImages: images, collectionsByYear, favoritesCount };
+        return { allImages: images, collections, favoritesCount };
     }, []);
 
     const filteredImages = useMemo(() => {
-        if (selectedCollection === 'All') return allImages;
-        if (selectedCollection === 'Favorites') return allImages.filter(img => img.collection === 'Favorites');
-        return allImages.filter(image => image.collection === selectedCollection);
+        if (selectedCollection === 'All') return allImages.filter((img: ImageData) => img.collection !== 'Favorites');
+        if (selectedCollection === 'Favorites') return allImages.filter((img: ImageData) => img.collection === 'Favorites');
+        return allImages.filter((image: ImageData) => image.collection === selectedCollection);
     }, [selectedCollection, allImages]);
 
     const openModal = (imageData: ImageData) => setModalData(imageData);
     const closeModal = () => setModalData(null);
+
+    const showNextImage = useCallback(() => {
+        if (!modalData) return;
+        const currentIndex = filteredImages.findIndex(img => img.src === modalData.src);
+        if (currentIndex !== -1) {
+            const nextIndex = (currentIndex + 1) % filteredImages.length;
+            setModalData(filteredImages[nextIndex]);
+        }
+    }, [modalData, filteredImages]);
+
+    const showPrevImage = useCallback(() => {
+        if (!modalData) return;
+        const currentIndex = filteredImages.findIndex(img => img.src === modalData.src);
+        if (currentIndex !== -1) {
+            const prevIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length;
+            setModalData(filteredImages[prevIndex]);
+        }
+    }, [modalData, filteredImages]);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!modalData) return;
+
+            if (e.key === 'Escape') {
+                closeModal();
+            } else if (e.key === 'ArrowRight') {
+                showNextImage();
+            } else if (e.key === 'ArrowLeft') {
+                showPrevImage();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [modalData, showNextImage, showPrevImage]);
 
     const formatMetadata = (metadata: ImageMetadata) => {
         const { title, date, focalLength, aperture, shutterSpeed, iso } = metadata;
@@ -118,7 +151,7 @@ const Gallery = () => {
                         className={selectedCollection === 'All' ? 'active' : ''}
                         onClick={() => setSelectedCollection('All')}
                     >
-                        All ({allImages.length})
+                        All ({allImages.filter((img: ImageData) => img.collection !== 'Favorites').length})
                     </li>
                     <li 
                         className={selectedCollection === 'Favorites' ? 'active' : ''}
@@ -126,23 +159,16 @@ const Gallery = () => {
                     >
                         Favorites ({favoritesCount})
                     </li>
+                    {collections.map(({ name, count }: Collection) => (
+                        <li 
+                            key={name}
+                            className={selectedCollection === name ? 'active' : ''}
+                            onClick={() => setSelectedCollection(name)}
+                        >
+                            {`${name.charAt(0).toUpperCase() + name.slice(1)} (${count})`}
+                        </li>
+                    ))}
                 </ul>
-                {Object.entries(collectionsByYear).map(([year, collections]) => (
-                    <div key={year}>
-                        <h3>{year}</h3>
-                        <ul>
-                            {collections.map(({ name, count }) => (
-                                <li 
-                                    key={name}
-                                    className={selectedCollection === name ? 'active' : ''}
-                                    onClick={() => setSelectedCollection(name)}
-                                >
-                                    {`${name.charAt(0).toUpperCase() + name.slice(1)} (${count})`}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
             </aside>
             <main className="image-grid-container">
                 <div className="photo-grid">
@@ -156,10 +182,14 @@ const Gallery = () => {
 
             {modalData && (
                 <div className="modal-overlay" onClick={closeModal}>
-                    <img src={modalData.src} alt={modalData.metadata.title} className="modal-image" />
-                    <div className="metadata">
-                        <p>{formatMetadata(modalData.metadata)}</p>
+                    <button className="nav-button prev" onClick={(e) => { e.stopPropagation(); showPrevImage(); }}>&#10094;</button>
+                    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} onClick={(e) => e.stopPropagation()}>
+                      <img src={modalData.src} alt={modalData.metadata.title} className="modal-image" />
+                      <div className="metadata">
+                          <p>{formatMetadata(modalData.metadata)}</p>
+                      </div>
                     </div>
+                    <button className="nav-button next" onClick={(e) => { e.stopPropagation(); showNextImage(); }}>&#10095;</button>
                 </div>
             )}
         </div>

@@ -62,10 +62,41 @@
     top: 0; left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 50%;
+    z-index: 1001;
+    user-select: none;
+    transition: background 0.2s;
+    line-height: 1;
+  }
+  
+  .nav-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-button.prev {
+    left: 30px;
+  }
+  
+  .nav-button.next {
+    right: 30px;
   }
   
   .modalImage {

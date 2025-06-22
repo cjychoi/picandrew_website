@@ -1,7 +1,7 @@
 import './Home.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -28,7 +28,7 @@ const Home = () => {
                 path,
                 src: (module as { default: string }).default,
                 // Extract number from filename (e.g., "1.jpg" -> 1)
-                number: parseInt(path.match(/(\d+)\.jpg$/)?.[1] || '0')
+                number: parseInt(path.match(/(\\d+)\\.jpg$/)?.[1] || '0')
             }))
             .sort((a, b) => b.number - a.number) // Reverse order (newest first)
             .map(item => item.src);
@@ -45,6 +45,43 @@ const Home = () => {
         setModalVisible(false);
         setModalSrc('');
     };
+
+    const showNextImage = useCallback(() => {
+        if (!modalSrc) return;
+        const currentIndex = slides.findIndex(src => src === modalSrc);
+        if (currentIndex !== -1) {
+            const nextIndex = (currentIndex + 1) % slides.length;
+            setModalSrc(slides[nextIndex]);
+        }
+    }, [modalSrc, slides]);
+
+    const showPrevImage = useCallback(() => {
+        if (!modalSrc) return;
+        const currentIndex = slides.findIndex(src => src === modalSrc);
+        if (currentIndex !== -1) {
+            const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+            setModalSrc(slides[prevIndex]);
+        }
+    }, [modalSrc, slides]);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!modalVisible) return;
+
+            if (e.key === 'Escape') {
+                closeModal();
+            } else if (e.key === 'ArrowRight') {
+                showNextImage();
+            } else if (e.key === 'ArrowLeft') {
+                showPrevImage();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [modalVisible, showNextImage, showPrevImage]);
 
     const autoplayConfig = isPlaying
         ? {
@@ -91,7 +128,9 @@ const Home = () => {
                 {/* Modal overlay */}
                 {modalVisible && (
                     <div className="modalOverlay" onClick={closeModal}>
-                    <img className="modalImage" src={modalSrc} alt="Full View" />
+                      <button className="nav-button prev" onClick={(e) => { e.stopPropagation(); showPrevImage(); }}>&#10094;</button>
+                      <img className="modalImage" src={modalSrc} alt="Full View" />
+                      <button className="nav-button next" onClick={(e) => { e.stopPropagation(); showNextImage(); }}>&#10095;</button>
                     </div>
                 )}
             </div>
