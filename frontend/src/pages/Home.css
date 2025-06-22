@@ -132,3 +132,43 @@
     height: 24px;
     object-fit: contain;
   }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .mainHome {
+        padding-top: 100px;
+    }
+
+    .slideImg {
+        height: 300px;
+        padding-bottom: 0;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        top: 50% !important;
+    }
+
+    .photoGrid {
+        padding: 10em 1em;
+    }
+
+    .pauseBtn {
+        bottom: -50px;
+        right: 20px;
+        padding: 8px;
+    }
+
+    .nav-button {
+        font-size: 2rem;
+        padding: 8px 12px;
+    }
+
+    .nav-button.prev {
+        left: 10px;
+    }
+
+    .nav-button.next {
+        right: 10px;
+    }
+}

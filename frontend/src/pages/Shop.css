@@ -24,3 +24,15 @@
     color: #333;
     font-weight: 500;
   }
+  
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .shopMain {
+        padding-top: 100px;
+    }
+
+    .shopText {
+        font-size: 1.5rem;
+        padding: 0 1rem;
+    }
+}

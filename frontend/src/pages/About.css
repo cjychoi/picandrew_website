@@ -135,3 +135,30 @@
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
   object-fit: cover;
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .aboutMain {
+    padding: 2rem 1.5rem;
+    margin-top: 60px;
+  }
+
+  .aboutIntro {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .aboutImage img {
+    width: 250px;
+  }
+
+  .aboutText {
+    align-items: center;
+  }
+
+  .gearColumns {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

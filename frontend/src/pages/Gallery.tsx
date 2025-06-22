@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import './Gallery.css';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 // Dynamically import all images, preserving the path for metadata extraction
 const imageModules = import.meta.glob('../assets/gallery/**/*.jpg', { eager: true });
@@ -62,6 +63,19 @@ const parseImageData = (path: string): ImageData | null => {
 const Gallery = () => {
     const [selectedCollection, setSelectedCollection] = useState('All');
     const [modalData, setModalData] = useState<ImageData | null>(null);
+    const [isCollectionsOpen, setIsCollectionsOpen] = useState(window.innerWidth > 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setIsCollectionsOpen(true);
+            } else {
+                setIsCollectionsOpen(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const { allImages, collections, favoritesCount }: { allImages: ImageData[], collections: Collection[], favoritesCount: number } = useMemo(() => {
         const images: ImageData[] = Object.keys(imageModules)
@@ -142,33 +156,50 @@ const Gallery = () => {
         return `${title} | ${formattedDate} | ${focalLength} | ${formattedAperture} | ${formattedShutter} | ISO ${iso}`;
     };
 
+    const toggleCollections = () => {
+        if (window.innerWidth <= 768) {
+            setIsCollectionsOpen(!isCollectionsOpen);
+        }
+    };
+
     return (
         <div className="gallery-page">
             <aside className="sidebar">
-                <h2>Collections</h2>
-                <ul>
-                    <li 
-                        className={selectedCollection === 'All' ? 'active' : ''}
-                        onClick={() => setSelectedCollection('All')}
-                    >
-                        All ({allImages.filter((img: ImageData) => img.collection !== 'Favorites').length})
-                    </li>
-                    <li 
-                        className={selectedCollection === 'Favorites' ? 'active' : ''}
-                        onClick={() => setSelectedCollection('Favorites')}
-                    >
-                        Favorites ({favoritesCount})
-                    </li>
-                    {collections.map(({ name, count }: Collection) => (
-                        <li 
-                            key={name}
-                            className={selectedCollection === name ? 'active' : ''}
-                            onClick={() => setSelectedCollection(name)}
-                        >
-                            {`${name.charAt(0).toUpperCase() + name.slice(1)} (${count})`}
+                <div className="collections-menu">
+                    <h2 className="collections-toggle" onClick={toggleCollections}>
+                        Collections
+                        <span className="chevron-container">
+                            {isCollectionsOpen ? <FaChevronUp /> : <FaChevronDown />}
+                        </span>
+                    </h2>
+                    <ul className={`collections-list ${isCollectionsOpen ? 'open' : ''}`}>
+                        <li>
+                            <span
+                                className={selectedCollection === 'All' ? 'active' : ''}
+                                onClick={() => setSelectedCollection('All')}
+                            >
+                                All ({allImages.filter((img: ImageData) => img.collection !== 'Favorites').length})
+                            </span>
                         </li>
-                    ))}
-                </ul>
+                        <li>
+                            <span
+                                className={selectedCollection === 'Favorites' ? 'active' : ''}
+                                onClick={() => setSelectedCollection('Favorites')}
+                            >
+                                Favorites ({favoritesCount})
+                            </span>
+                        </li>
+                        {collections.map(({ name, count }: Collection) => (
+                            <li 
+                                key={name}
+                                className={selectedCollection === name ? 'active' : ''}
+                                onClick={() => setSelectedCollection(name)}
+                            >
+                                {`${name.charAt(0).toUpperCase() + name.slice(1)} (${count})`}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </aside>
             <main className="image-grid-container">
                 <div className="photo-grid">
