@@ -1,17 +1,7 @@
 import './Home.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
-import { useState } from 'react';
-
-import img1 from '../assets/1.jpg';
-import img2 from '../assets/2.jpg';
-import img3 from '../assets/3.jpg';
-import img4 from '../assets/4.jpg';
-import img5 from '../assets/5.jpg';
-import img6 from '../assets/6.jpg';
-import img7 from '../assets/7.jpg';
-import img8 from '../assets/8.jpg';
-import img9 from '../assets/9.jpg';
+import { useState, useMemo } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -20,11 +10,31 @@ import 'swiper/css/pagination';
 import pauseIcon from '../assets/pause_icon.png';
 import playIcon from '../assets/play_icon.png';
 
-const slides = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
+// Dynamic import of all images from the main folder
+const imageModules = import.meta.glob('../assets/gallery/main/*.jpg', { eager: true });
 
 const Home = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalSrc, setModalSrc] = useState('');
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    // Process and sort images in reverse numerical order
+    const slides = useMemo(() => {
+        const imageEntries = Object.entries(imageModules);
+        
+        // Extract image paths and sort by filename numerically in reverse order
+        const sortedImages = imageEntries
+            .map(([path, module]) => ({
+                path,
+                src: (module as { default: string }).default,
+                // Extract number from filename (e.g., "1.jpg" -> 1)
+                number: parseInt(path.match(/(\d+)\.jpg$/)?.[1] || '0')
+            }))
+            .sort((a, b) => b.number - a.number) // Reverse order (newest first)
+            .map(item => item.src);
+
+        return sortedImages;
+    }, []);
 
     const openModal = (src: string) => {
         setModalSrc(src);
@@ -35,8 +45,6 @@ const Home = () => {
         setModalVisible(false);
         setModalSrc('');
     };
-
-    const [isPlaying, setIsPlaying] = useState(true);
 
     const autoplayConfig = isPlaying
         ? {
