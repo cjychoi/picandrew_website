@@ -25,7 +25,7 @@
 
 .navbar-center {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-grow: 1;
 }
 
@@ -34,7 +34,9 @@
   display: flex;
   gap: 2rem;
   margin: 0;
-  padding: 0;
+  padding: 10;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .navbar-links li a {
@@ -44,13 +46,35 @@
   transition: color 0.3s;
 }
 
-.navbar-links li a:hover {
-  color: #67b1f0;
+.navbar-links li a:hover,
+.navbar-links li a.active {
+  color: #4aa3df;
 }
 
-.navbar-links li a.active {
-  color: #67b1f0;
-  font-weight: 400;
+.navbar-links .navbar-icon {
+  color: black;
+  font-size: 1.4rem;
+  margin-left: 0.5rem;
+  transition: color 0.3s;
+}
+
+.navbar-links .navbar-icon:hover {
+  color: #e1306c;
+}
+
+/* Flex spacer to push Instagram icon right on desktop */
+.navbar-spacer {
+  flex: 1 1 auto;
+}
+
+@media (min-width: 769px) {
+  .navbar-links {
+    display: flex;
+    align-items: center;
+  }
+  .navbar-links .navbar-icon {
+    margin-left: auto;
+  }
 }
 
 .navbar-right {
@@ -101,6 +125,7 @@
 
   .navbar-center {
     width: 100%;
+    justify-content: center;
   }
 
   .navbar-right {
@@ -114,6 +139,12 @@
     flex-direction: column;
     gap: 1.5rem;
     width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar-links .navbar-icon {
+    margin-left: 0;
   }
 
   .menu-icon {
