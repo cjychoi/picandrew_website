@@ -117,7 +117,8 @@ const Home = () => {
                     />
                 </button>
             </div>
-
+            <div className="sectionDivider" />
+            <div className="latestWork">Latest Work</div>
             <div className="photoGrid">
                 {slides.map((src, i) => (
                     <div className="gridItem" key={i} onClick={() => openModal(src)}>

@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Tangerine');
+@import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&family=Megrim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Genos:ital,wght@1,200&display=swap');
+
 .mainHome {
     background-color: white; /* ← Add this line */
     min-height: 100vh;
@@ -66,29 +72,33 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    padding: 20px;
+    flex-direction: row;
+    padding: 20px 5vw;
+    box-sizing: border-box;
   }
   
   .nav-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    position: static;
     background: transparent;
     border: none;
     color: white;
     font-size: 2.5rem;
     cursor: pointer;
     padding: 10px 15px;
-    border-radius: 50%;
+    border-radius: 100%;
     z-index: 1001;
     user-select: none;
     transition: background 0.2s;
     line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: 0 16px;
   }
   
   .nav-button:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: transparent;
   }
   
   .nav-button.prev {
@@ -100,9 +110,10 @@
   }
   
   .modalImage {
-    max-width: 90vw;
+    max-width: 100%;
     max-height: 90vh;
     border-radius: 10px;
+    display: block;
   }
 
   .pauseBtn {
@@ -132,6 +143,13 @@
     height: 24px;
     object-fit: contain;
   }
+
+.sectionDivider {
+  width: 60%;
+  height: 1px;
+  background-color: #ccc;
+  margin: 3rem auto;
+}
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -171,4 +189,25 @@
     .nav-button.next {
         right: 10px;
     }
+}
+
+@media (max-width: 600px) {
+  .modalImage {
+    max-width: 80vw;
+  }
+  .nav-button {
+    margin: 0 6px;
+    font-size: 2rem;
+    padding: 6px 8px;
+  }
+}
+
+.latestWork {
+  color: #e6e6e6;
+  font-family: 'Genos', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: normal;
 }
