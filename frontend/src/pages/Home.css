@@ -189,6 +189,13 @@
     .nav-button.next {
         right: 10px;
     }
+
+    .sectionDivider {
+        margin-top: 15rem !important;
+    }
+    .latestWork {
+        margin-bottom: -6rem !important;
+    }
 }
 
 @media (max-width: 600px) {
