@@ -27,7 +27,7 @@ const About = () => {
             Editing is where I dive even deeper. I use Adobe Lightroom to fine-tune
             the mood, especially through masking techniques that help highlight
             details and create atmosphere.<br /><br />
-            Thanks for stopping by—I hope you enjoy seeing the world through my lens.
+            Thanks for stopping by—I hope you enjoy seeing the world through my view finder.
           </p>
           <a
             className="aboutInstaIcon"
